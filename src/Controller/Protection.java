@@ -91,26 +91,33 @@ public class Protection {
     }
     
     public boolean verifyUser(String username, String password){
-        User user = sqlite.getUser(username);
-      
-        if(user.getId() == 0){
+        try {
+            User user = sqlite.getUser(username);
+        
+            if(user.getId() == 0 ){
+                return false;
+            } 
+            boolean match = Encrypt.verifyUserPassword(password, user.getPassword());
+            return match;
+        } catch (NullPointerException e) {
             return false;
         }
         
-        boolean match = Encrypt.verifyUserPassword(password, user.getPassword());
-        
-        return match;
     }
     
     public boolean isUserLocked(String username){
-        User user = sqlite.getUser(username);
+        try {
+            User user = sqlite.getUser(username);
         
-        if(user.getId() == 0 ){
+            if(user.getId() == 0 ){
+                return false;
+            } 
+
+            if(user.getLocked() != 0){
+                return true;
+            }
+        } catch (NullPointerException e) {
             return false;
-        } 
-        
-        if(user.getLocked() != 0){
-            return true;
         }
         
         return false;
