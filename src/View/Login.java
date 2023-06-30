@@ -116,17 +116,17 @@ public class Login extends javax.swing.JPanel {
         errorText.getAccessibleContext().setAccessibleName("errorText");
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+        System.out.println("log");
         String username = usernameFld.getText();
         String password = passwordFld.getText();
         
         // check if user account is locked
         if (protection.isUserLocked(username)) {
-           errorText.setText("Error: Invalid credentials");
+           errorText.setText("Account is locked. Please contact an administrator.");
            return;
-        }
-        
+        } 
         // check if user has attempted to login 3 times
-        if (this.lockCount > 4) {
+        if (this.lockCount > 2) {
             protection.lockUser(username);
             errorText.setText("Error: Account Locked due to multiple failed login attempts");
             return;
