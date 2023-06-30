@@ -153,7 +153,11 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void forgotPasswordBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordBtnMouseClicked
-        
+        Object[] options = {"Enter"};
+        String username = JOptionPane.showInputDialog(frame, "Enter Username", "Forgot Password", JOptionPane.PLAIN_MESSAGE);
+        if(username != null) {
+            JOptionPane.showMessageDialog(frame, "Request for password reset has been sent to your administrator. Please wait for your administrator's response.");
+        }
     }//GEN-LAST:event_forgotPasswordBtnMouseClicked
 
 
