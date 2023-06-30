@@ -185,11 +185,11 @@ public class SQLite {
     
     public void addUser(String username, String password) {
         String sql = "INSERT INTO users(username,password) VALUES(?, ?)";
-        
+        String hash = Encrypt.generateSecurePassword(password);
         try (Connection conn = DriverManager.getConnection(driverURL); 
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, hash);
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.print(ex);
