@@ -141,6 +141,7 @@ public class Login extends javax.swing.JPanel {
         } else {
             this.lockCount++;
             errorText.setText("Error: Invalid credentials");
+            return;
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
