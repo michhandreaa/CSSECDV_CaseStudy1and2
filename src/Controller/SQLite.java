@@ -278,6 +278,57 @@ public class SQLite {
         return users;
     }
     
+    public User getUser(String username, String password){
+        String sql = "SELECT id, username, password, role, locked FROM users WHERE username=? AND password=?";
+        User user = null;
+        
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                user = new User(rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("password"),
+                   rs.getInt("role"),
+                  rs.getInt("locked"));
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        return user;
+    }
+    
+    public User getUser(String username) {
+    String sql = "SELECT id, username, password, role, locked FROM users WHERE username=?";
+    User user = null;
+
+    try {
+        Connection conn = DriverManager.getConnection(driverURL);
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            user = new User(rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getInt("role"),
+                rs.getInt("locked"));
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return user;
+}
+    
     public void addUser(String username, String password, int role) {
         String sql = "INSERT INTO users(username,password,role) VALUES('" + username + "','" + password + "','" + role + "')";
         
@@ -287,6 +338,27 @@ public class SQLite {
             
         } catch (Exception ex) {
             System.out.print(ex);
+        }
+    }
+    
+    public void updateUser(User user){
+        String sql = "UPDATE users SET username = ?, password = ?, role = ?, locked = ? WHERE username = ?";
+        
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setInt(3, user.getRole());
+            pstmt.setInt(4, user.getLocked());
+            pstmt.setString(5, user.getUsername());
+            
+            pstmt.execute();
+            
+            System.out.println("User Updated");
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
     }
     
