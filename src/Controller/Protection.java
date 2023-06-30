@@ -49,7 +49,7 @@ public class Protection {
         return match;
     }
     
-    public boolean checkPasswordStrength(String password, javax.swing.JLabel errorLabel, javax.swing.JPasswordField passwordFld, javax.swing.JPasswordField confpassFld) {
+    public boolean checkPasswordStrength(String password, javax.swing.JLabel errorLabel, javax.swing.JTextField passwordFld, javax.swing.JTextField confpassFld) {
                
         if (checkPasswordLength(password)) {
             errorLabel.setText("Error: Password must at least be 8 characters long");
@@ -119,16 +119,19 @@ public class Protection {
         } catch (NullPointerException e) {
             return false;
         }
-        
         return false;
     }
     
     public void lockUser(String username){
-        User user = sqlite.getUser(username);
+        try {
+            User user = sqlite.getUser(username);
         
-        if(user.getId() != 0){
-            user.setLocked(1);
-            sqlite.updateUser(user);
+            if(user.getId() != 0){
+                user.setLocked(1);
+                sqlite.updateUser(user);
+            }
+        } catch (NullPointerException e) {
+            return;
         }
     }
 }
