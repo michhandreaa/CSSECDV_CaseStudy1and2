@@ -82,10 +82,14 @@ public class Protection {
     }
     
     public boolean checkUser(String username){
-        User user = sqlite.getUser(username);
-      
-        if(user.getId() != 0){
-            return true;
+        try {
+            User user = sqlite.getUser(username);
+        
+            if(user.getId() != 0 ){
+                return true;
+            } 
+        } catch (NullPointerException e) {
+            return false;
         }
         return false;
     }
@@ -102,7 +106,6 @@ public class Protection {
         } catch (NullPointerException e) {
             return false;
         }
-        
     }
     
     public boolean isUserLocked(String username){
