@@ -120,7 +120,7 @@ public class Login extends javax.swing.JPanel {
         String password = passwordFld.getText();
         
         if(protection.containsDisallowedCharacters(username)) {
-            errorText.setText("Input must not contain: ('), (\"),  (;), (--)");
+            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
             return;
         }
         

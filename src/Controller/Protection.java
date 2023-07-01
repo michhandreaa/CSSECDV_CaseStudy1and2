@@ -44,7 +44,7 @@ public class Protection {
     }
     
     private boolean passwordHasSpecialChar(String password){
-        boolean match = password.matches(".*[`~!@#$%^&*()\\-_=+\\\\|\\[{\\]};:<>.?].*");
+        boolean match = password.matches(".*[`~!@#$%^&*()\\_=+\\\\|\\[{\\]}:<>.?].*");
         System.out.println("Contains Special Char: " + match);
         return match;
     }
@@ -139,7 +139,7 @@ public class Protection {
     }
     
     public boolean containsDisallowedCharacters(String input) {
-        String[] DISALLOWED_CHARACTERS = {"'", "\"", ";", "--"};
+        String[] DISALLOWED_CHARACTERS = {"'", "\"", ";", "-"};
         for (String character : DISALLOWED_CHARACTERS) {
             if (input.contains(character)) {
                 return true;

@@ -120,7 +120,7 @@ public class Register extends javax.swing.JPanel {
         String username = usernameFld.getText();
         
         if(protection.containsDisallowedCharacters(username)) {
-            errorText.setText("Input must not contain: ('), (\"),  (;), (--)");
+            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
             return;
         }
         
