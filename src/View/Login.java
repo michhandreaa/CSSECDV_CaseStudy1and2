@@ -163,6 +163,10 @@ public class Login extends javax.swing.JPanel {
     private void forgotPasswordBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordBtnMouseClicked
         Object[] options = {"Enter"};
         String username = JOptionPane.showInputDialog(frame, "Enter Username", "Forgot Password", JOptionPane.PLAIN_MESSAGE);
+        if(protection.containsDisallowedCharacters(username)) {
+            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            return;
+        }
         if(username != null) {
             JOptionPane.showMessageDialog(frame, "Request for password reset has been sent to your administrator. Please wait for your administrator's response.");
         }
