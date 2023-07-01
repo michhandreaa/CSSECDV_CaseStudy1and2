@@ -123,6 +123,10 @@ public class Login extends javax.swing.JPanel {
             errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
             return;
         }
+        if(protection.containsDisallowedCharacters(password)) {
+            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            return;
+        }
         
         // check if user account is locked
         if (protection.isUserLocked(username)) {
