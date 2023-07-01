@@ -68,6 +68,7 @@
           <Font name="Tahoma" size="24" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="REGISTER"/>
+        <Property name="alignmentX" type="float" value="0.5"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
       <Events>

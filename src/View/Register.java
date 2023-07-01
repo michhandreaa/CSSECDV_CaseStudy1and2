@@ -25,6 +25,7 @@ public class Register extends javax.swing.JPanel {
 
         registerBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         registerBtn.setText("REGISTER");
+        registerBtn.setAlignmentX(0.5F);
         registerBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         registerBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
