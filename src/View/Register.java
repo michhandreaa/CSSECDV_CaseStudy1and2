@@ -6,7 +6,8 @@ import Controller.Protection;
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
-    
+    public Protection protection = new Protection();
+
     public Register() {
         initComponents();
     }
@@ -117,6 +118,11 @@ public class Register extends javax.swing.JPanel {
         String password = passwordFld.getText();
         String confpass = confpassFld.getText();
         String username = usernameFld.getText();
+        
+        if(protection.containsDisallowedCharacters(username)) {
+            errorText.setText("Input must not contain: ('), (\"),  (;), (--)");
+            return;
+        }
         
         if(password.isEmpty() || username.isEmpty() || confpass.isEmpty())
             errorText.setText("Error: Field is empty");

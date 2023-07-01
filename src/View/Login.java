@@ -116,9 +116,13 @@ public class Login extends javax.swing.JPanel {
         errorText.getAccessibleContext().setAccessibleName("errorText");
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        System.out.println("log");
         String username = usernameFld.getText();
         String password = passwordFld.getText();
+        
+        if(protection.containsDisallowedCharacters(username)) {
+            errorText.setText("Input must not contain: ('), (\"),  (;), (--)");
+            return;
+        }
         
         // check if user account is locked
         if (protection.isUserLocked(username)) {
