@@ -127,6 +127,10 @@ public class Register extends javax.swing.JPanel {
             errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
             return;
         }
+        if(protection.containsDisallowedCharacters(confpass)) {
+            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            return;
+        }
         
         if(password.isEmpty() || username.isEmpty() || confpass.isEmpty())
             errorText.setText("Error: Field is empty");
