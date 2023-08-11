@@ -40,6 +40,25 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        deleteBtn.setVisible(false);
     }
     
+    public void limitToStaffPermissions(int role) {
+        switch (role) {
+        case 3: // Staff role
+            // Enable staff-related functionalities on the product page
+            addBtn.setEnabled(true);
+            editBtn.setEnabled(true);
+            deleteBtn.setEnabled(true);
+            purchaseBtn.setEnabled(false);
+            break;
+        default:
+            // Disable staff-related functionalities on the product page
+            addBtn.setEnabled(false);
+            editBtn.setEnabled(false);
+            deleteBtn.setEnabled(false);
+            purchaseBtn.setEnabled(true);
+            break;
+    }
+    }
+    
     public int getRole() {
         return role;
     }
@@ -51,7 +70,8 @@ public class MgmtProduct extends javax.swing.JPanel {
         }
         
         SessionManager sessionManager = SessionManager.getInstance();
-        role = sessionManager.getRole();
+        int role = sessionManager.getRole();
+        limitToStaffPermissions(role);
         
         System.out.println("MgmtProduct: " + role);
         
@@ -236,9 +256,15 @@ public class MgmtProduct extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "ADD PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
-            System.out.println(nameFld.getText());
-            System.out.println(stockFld.getText());
-            System.out.println(priceFld.getText());
+             String name = nameFld.getText();
+             int stock = Integer.parseInt(stockFld.getText());
+             double price = Double.parseDouble(priceFld.getText());
+             
+            // Perform the add operation in the database
+            sqlite.addProduct(name, stock, price);
+
+             // Update the UI by adding a new row to the tableModel
+             tableModel.addRow(new Object[]{name, stock, price});
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
