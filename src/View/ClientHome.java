@@ -73,16 +73,15 @@ public class ClientHome extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 102, 51));
 
-        usersBtn.setBackground(new java.awt.Color(255, 255, 255));
         usersBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         usersBtn.setText("USERS");
+        usersBtn.setEnabled(false);
         usersBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usersBtnActionPerformed(evt);
             }
         });
 
-        productsBtn.setBackground(new java.awt.Color(255, 255, 255));
         productsBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         productsBtn.setText("PRODUCTS");
         productsBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +103,6 @@ public class ClientHome extends javax.swing.JPanel {
             .addGap(0, 271, Short.MAX_VALUE)
         );
 
-        historyBtn.setBackground(new java.awt.Color(255, 255, 255));
         historyBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         historyBtn.setText("HISTORY");
         historyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -113,9 +111,9 @@ public class ClientHome extends javax.swing.JPanel {
             }
         });
 
-        logsBtn.setBackground(new java.awt.Color(255, 255, 255));
         logsBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         logsBtn.setText("LOGS");
+        logsBtn.setEnabled(false);
         logsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logsBtnActionPerformed(evt);
