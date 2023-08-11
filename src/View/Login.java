@@ -138,8 +138,8 @@ public class Login extends javax.swing.JPanel {
                 // check if user account is locked
                 if (protection.isUserLocked(username)) {
                    errorText.setText("Account is locked. Please contact an administrator.");
-                    usernameFld.setText("");
-                    passwordFld.setText("");
+                   usernameFld.setText("");
+                   passwordFld.setText("");
                    return;
                 } 
                 // check if user has attempted to login 3 times
@@ -169,13 +169,17 @@ public class Login extends javax.swing.JPanel {
         
         // check if user account is locked
         if (protection.isUserLocked(username)) {
-           errorText.setText("Account is locked. Please contact an administrator.");
+            errorText.setText("Account is locked. Please contact an administrator.");
+            usernameFld.setText("");
+            passwordFld.setText("");
            return;
         } 
         // check if user has attempted to login 3 times
         if (this.lockCount > 2) {
             protection.lockUser(username);
             errorText.setText("Error: Account Locked due to multiple failed login attempts");
+            usernameFld.setText("");
+            passwordFld.setText("");
             return;
         }
         
@@ -188,6 +192,8 @@ public class Login extends javax.swing.JPanel {
         } else {
             this.lockCount++;
             errorText.setText("Error: Invalid credentials");
+            usernameFld.setText("");
+            passwordFld.setText("");
             return;
         }
     }//GEN-LAST:event_loginBtnActionPerformed
