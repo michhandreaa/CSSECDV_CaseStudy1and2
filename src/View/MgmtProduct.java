@@ -56,29 +56,16 @@ public class MgmtProduct extends javax.swing.JPanel {
         System.out.println("MgmtProduct: " + role);
         
         switch (role) {
-            case 5: // Admin role
-//                purchaseBtn.setEnabled(false);
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
-                break;
             case 4: // Manager role
                 purchaseBtn.setEnabled(false);
-                addBtn.setEnabled(false);
-//                editBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
                 break;
             case 3: // Staff role
                 purchaseBtn.setEnabled(false);
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-//                deleteBtn.setEnabled(false);
                 break;
             case 2: // Client role
-                purchaseBtn.setEnabled(false);
-//                addBtn.setEnabled(false);
-//                editBtn.setEnabled(false);
-//                deleteBtn.setEnabled(false);
+                addBtn.setEnabled(false);
+                editBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
                 break;
             default:
                 break;
