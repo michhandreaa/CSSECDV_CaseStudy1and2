@@ -124,11 +124,11 @@ public class Login extends javax.swing.JPanel {
         String password = passwordFld.getText();
         
         if(protection.containsDisallowedCharacters(username)) {
-            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            JOptionPane.showMessageDialog(this, "Input must not contain: ('), (\"), (;), (-)", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if(protection.containsDisallowedCharacters(password)) {
-            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            JOptionPane.showMessageDialog(this, "Input must not contain: ('), (\"), (;), (-)", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -141,7 +141,7 @@ public class Login extends javax.swing.JPanel {
             } else {
                 // check if user account is locked
                 if (protection.isUserLocked(username)) {
-                   errorText.setText("Account is locked. Please contact an administrator.");
+                   JOptionPane.showMessageDialog(this, "Account is locked. Please communicate with the Admin in-person to re-enable the account.", "Account Locked", JOptionPane.WARNING_MESSAGE);
                    usernameFld.setText("");
                    passwordFld.setText("");
                    return;
@@ -149,7 +149,8 @@ public class Login extends javax.swing.JPanel {
                 // check if user has attempted to login 3 times
                 if (this.lockCount > 2) {
                     protection.lockUser(username);
-                    errorText.setText("Error: Account Locked due to multiple failed login attempts");
+                    String message = "Account disabled due to multiple failed login attempts. Please communicate with the Admin in-person to re-enable the account.";
+                    JOptionPane.showMessageDialog(this, message, "Account Disabled", JOptionPane.WARNING_MESSAGE);
                     usernameFld.setText("");
                     passwordFld.setText("");
                     return;
@@ -163,7 +164,7 @@ public class Login extends javax.swing.JPanel {
                     frame.mainNav();
                 } else {
                     this.lockCount++;
-                    errorText.setText("Error: Invalid credentials");
+                    JOptionPane.showMessageDialog(this, "Error: Invalid credentials.", "Invalid Credentials", JOptionPane.WARNING_MESSAGE);
                     usernameFld.setText("");
                     passwordFld.setText("");
                     return;
@@ -173,7 +174,7 @@ public class Login extends javax.swing.JPanel {
         
         // check if user account is locked
         if (protection.isUserLocked(username)) {
-            errorText.setText("Account is locked. Please contact an administrator.");
+            JOptionPane.showMessageDialog(this, "Account is locked. Please communicate with the Admin in-person to re-enable the account.", "Account Locked", JOptionPane.WARNING_MESSAGE);
             usernameFld.setText("");
             passwordFld.setText("");
            return;
@@ -181,7 +182,8 @@ public class Login extends javax.swing.JPanel {
         // check if user has attempted to login 3 times
         if (this.lockCount > 2) {
             protection.lockUser(username);
-            errorText.setText("Error: Account Locked due to multiple failed login attempts");
+            String message = "Account disabled due to multiple failed login attempts. Please communicate with the Admin in-person to re-enable the account.";
+            JOptionPane.showMessageDialog(this, message, "Account Disabled", JOptionPane.WARNING_MESSAGE);
             usernameFld.setText("");
             passwordFld.setText("");
             return;
@@ -192,13 +194,16 @@ public class Login extends javax.swing.JPanel {
             usernameFld.setText("");
             passwordFld.setText("");
             errorText.setText("");
+            
+            int role = getRole(username);
+            
             frame.mainNav();
         } else {
             boolean exists = checkIfUserExists(username);
             
             if (exists) {
                 this.lockCount++;
-                errorText.setText("Error: Invalid credentials");
+                JOptionPane.showMessageDialog(this, "Error: Invalid credentials.", "Invalid Credentials", JOptionPane.WARNING_MESSAGE);
                 usernameFld.setText("");
                 passwordFld.setText("");
                 return;
@@ -222,7 +227,7 @@ public class Login extends javax.swing.JPanel {
         Object[] options = {"Enter"};
         String username = JOptionPane.showInputDialog(frame, "Enter Username", "Forgot Password", JOptionPane.PLAIN_MESSAGE);
         if(protection.containsDisallowedCharacters(username)) {
-            errorText.setText("Input must not contain: ('), (\"),  (;), (-)");
+            JOptionPane.showMessageDialog(this, "Input must not contain: ('), (\"), (;), (-)", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if(username != null) {
@@ -240,7 +245,6 @@ public class Login extends javax.swing.JPanel {
             usernames[i] = users.get(i).getUsername();
 //            System.out.println(usernames[i]);
         }
-        
         return usernames;
     }
     
@@ -253,6 +257,18 @@ public class Login extends javax.swing.JPanel {
         }
         
         return false;
+    }
+    
+    public int getRole(String username) {
+        sqlite = new SQLite();
+        ArrayList<User> users = sqlite.getUsers();
+        
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user.getRole(); 
+            }
+        }
+        return -1;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
