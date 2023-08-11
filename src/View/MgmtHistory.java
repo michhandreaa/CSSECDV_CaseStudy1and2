@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.SessionManager;
 import Controller.SQLite;
 import Model.History;
 import Model.Product;
@@ -21,6 +22,9 @@ public class MgmtHistory extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    
+    private int role;
+    private String username;
     
     public MgmtHistory(SQLite sqlite) {
         initComponents();
@@ -45,18 +49,42 @@ public class MgmtHistory extends javax.swing.JPanel {
             tableModel.removeRow(0);
         }
         
+        SessionManager sessionManager = SessionManager.getInstance();
+        role = sessionManager.getRole();
+        username = sessionManager.getUsername();
+        
+        System.out.println("MgmtHistory role: " + role);
+        System.out.println("MgmtHistory username: " + username);
+        
+        
 //      LOAD CONTENTS
         ArrayList<History> history = sqlite.getHistory();
-        for(int nCtr = 0; nCtr < history.size(); nCtr++){
-            Product product = sqlite.getProduct(history.get(nCtr).getName());
-            tableModel.addRow(new Object[]{
-                history.get(nCtr).getUsername(), 
-                history.get(nCtr).getName(), 
-                history.get(nCtr).getStock(), 
-                product.getPrice(), 
-                product.getPrice() * history.get(nCtr).getStock(), 
-                history.get(nCtr).getTimestamp()
-            });
+        if (role == 4) {
+            for(int nCtr = 0; nCtr < history.size(); nCtr++){
+                Product product = sqlite.getProduct(history.get(nCtr).getName());
+                tableModel.addRow(new Object[]{
+                    history.get(nCtr).getUsername(), 
+                    history.get(nCtr).getName(), 
+                    history.get(nCtr).getStock(), 
+                    product.getPrice(), 
+                    product.getPrice() * history.get(nCtr).getStock(), 
+                    history.get(nCtr).getTimestamp()
+                });
+            }
+        } else {
+            for(int nCtr = 0; nCtr < history.size(); nCtr++){
+                if (username.equals(history.get(nCtr).getUsername())) {
+                    Product product = sqlite.getProduct(history.get(nCtr).getName());
+                    tableModel.addRow(new Object[]{
+                        history.get(nCtr).getUsername(), 
+                        history.get(nCtr).getName(), 
+                        history.get(nCtr).getStock(), 
+                        product.getPrice(), 
+                        product.getPrice() * history.get(nCtr).getStock(), 
+                        history.get(nCtr).getTimestamp()
+                    });
+                }
+            }
         }
     }
     
