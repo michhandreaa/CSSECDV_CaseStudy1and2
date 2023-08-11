@@ -245,15 +245,16 @@ public class MgmtUser extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed
      public void limitToStaffPermissions() {
-        StaffHome staffHome = findStaffHomeAncestor(this);
-        User loggedInUser = staffHome.getLoggedInUser();
-    
+        User loggedInUser = getLoggedInUser();
+
         if (loggedInUser != null && loggedInUser.getRole() == 3) {
          // Enable staff-related functionalities
             editRoleBtn.setVisible(false); // Example: Disable editRoleBtn
         // ... other staff-related permissions ...
-        } else {
+         } else {
         // Handle non-staff users
+            editRoleBtn.setVisible(true); // Example: Enable editRoleBtn for non-staff users
+        // ... other non-staff permissions ...
         }
     }
      
@@ -272,9 +273,7 @@ public class MgmtUser extends javax.swing.JPanel {
     
         // A placeholder method for retrieving the logged-in user
     private User getLoggedInUser() {
-        // Replace this with your actual logic to get the logged-in user
-        // For example, if you're using a session, retrieve the user from the session
-        return new User("staff", "password", 3); // Example user with Staff role
+        return new User("staff", "password", 3);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
