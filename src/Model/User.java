@@ -7,9 +7,10 @@ public class User {
     private int role = 2;
     private int locked = 0;
 
-    public User(String username, String password){
+    public User(String username, String password, int role){
         this.username = username;
         this.password = password;
+        this.role = role;
     }
     
     public User(int id, String username, String password, int role, int locked){
@@ -19,7 +20,7 @@ public class User {
         this.role = role;
         this.locked = locked;
     }
-    
+        
     public int getId() {
         return id;
     }
@@ -58,5 +59,9 @@ public class User {
 
     public void setLocked(int locked) {
         this.locked = locked;
+    }
+    
+    public static User getLoggedInUser() {
+        return new User("staff", "password", 3); // Example user with Staff role
     }
 }

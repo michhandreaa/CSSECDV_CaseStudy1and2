@@ -6,8 +6,10 @@
 package View;
 
 import Controller.SQLite;
+import Controller.Protection;
 import Model.User;
 import java.util.ArrayList;
+import java.awt.Component;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -23,12 +26,14 @@ import javax.swing.table.DefaultTableModel;
 public class MgmtUser extends javax.swing.JPanel {
 
     public SQLite sqlite;
+    public Protection protection;
     public DefaultTableModel tableModel;
     
-    public MgmtUser(SQLite sqlite) {
+    public MgmtUser(SQLite sqlite, Protection protection) {
         initComponents();
         this.sqlite = sqlite;
-        tableModel = (DefaultTableModel)table.getModel();
+        this.protection = protection;
+        tableModel = (DefaultTableModel) table.getModel();
         table.getTableHeader().setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 14));
         
 //        UNCOMMENT TO DISABLE BUTTONS
@@ -37,7 +42,7 @@ public class MgmtUser extends javax.swing.JPanel {
 //        lockBtn.setVisible(false);
 //        chgpassBtn.setVisible(false);
     }
-    
+        
     public void init(){
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
@@ -239,7 +244,38 @@ public class MgmtUser extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed
-
+     public void limitToStaffPermissions() {
+        StaffHome staffHome = findStaffHomeAncestor(this);
+        User loggedInUser = staffHome.getLoggedInUser();
+    
+        if (loggedInUser != null && loggedInUser.getRole() == 3) {
+         // Enable staff-related functionalities
+            editRoleBtn.setVisible(false); // Example: Disable editRoleBtn
+        // ... other staff-related permissions ...
+        } else {
+        // Handle non-staff users
+        }
+    }
+     
+    private StaffHome findStaffHomeAncestor(Component component) {
+        if (component == null) {
+          return null;
+        }
+    
+        if (component instanceof StaffHome) {
+         return (StaffHome) component;
+        }
+    
+       return findStaffHomeAncestor(component.getParent());
+    }
+     
+    
+        // A placeholder method for retrieving the logged-in user
+    private User getLoggedInUser() {
+        // Replace this with your actual logic to get the logged-in user
+        // For example, if you're using a session, retrieve the user from the session
+        return new User("staff", "password", 3); // Example user with Staff role
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chgpassBtn;

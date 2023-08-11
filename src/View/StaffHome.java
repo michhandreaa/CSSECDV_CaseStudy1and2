@@ -6,6 +6,7 @@
 package View;
 
 import Controller.SQLite;
+import Controller.Protection;
 import Model.History;
 import Model.Logs;
 import Model.Product;
@@ -26,17 +27,39 @@ public class StaffHome extends javax.swing.JPanel {
     public MgmtProduct mgmtProduct;
     public MgmtUser mgmtUser;
     
+    private SQLite sqlite;
+    private Protection protection;
     private CardLayout contentView = new CardLayout();
     
-    public StaffHome() {
+    public StaffHome(SQLite sqlite, Protection protection) {
+        this.sqlite = sqlite;
+        this.protection = protection;
         initComponents();
+        disableUnauthorizedButtons();
+        
+        mgmtUser = new MgmtUser(sqlite, protection);
     }
+    
+    private void disableUnauthorizedButtons() {
+        Protection protection = new Protection(); // Create an instance of the Protection class
+        User loggedInUser = getLoggedInUser(); // Use the local method here
+        if (loggedInUser != null && loggedInUser.getRole() != 3) {
+            historyBtn.setVisible(false);
+            logsBtn.setVisible(false);
+        }
+    }
+    
+    // A placeholder method for retrieving the logged-in user
+    public User getLoggedInUser() {
+        return new User("staff", "password", 3);
+    }
+    
     
     public void init(SQLite sqlite){
         mgmtHistory = new MgmtHistory(sqlite);
         mgmtLogs = new MgmtLogs(sqlite);
         mgmtProduct = new MgmtProduct(sqlite);
-        mgmtUser = new MgmtUser(sqlite);
+        mgmtUser = new MgmtUser(sqlite, protection);
     
         Content.setLayout(contentView);
         Content.add(new Home("WELCOME STAFF!", new java.awt.Color(0,204,102)), "home");
@@ -156,14 +179,16 @@ public class StaffHome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersBtnActionPerformed
-        mgmtUser.init();
-        usersBtn.setForeground(Color.red);
-        productsBtn.setForeground(Color.black);
-        historyBtn.setForeground(Color.black);
-        logsBtn.setForeground(Color.black);
-        contentView.show(Content, "mgmtUser");
+    User loggedInUser = getLoggedInUser();
+    mgmtUser.init();  // Initialize the MgmtUser panel
+    usersBtn.setForeground(Color.red);
+    productsBtn.setForeground(Color.black);
+    historyBtn.setForeground(Color.black);
+    logsBtn.setForeground(Color.black);
+    mgmtUser.limitToStaffPermissions();  // Implement this method in MgmtUser
+    contentView.show(Content, "mgmtUser");  // Show the MgmtUser panel
     }//GEN-LAST:event_usersBtnActionPerformed
-
+    
     private void productsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productsBtnActionPerformed
         mgmtProduct.init();
         usersBtn.setForeground(Color.black);

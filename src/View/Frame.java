@@ -1,12 +1,18 @@
 package View;
 
 import Controller.Main;
+import Controller.Protection;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.WindowConstants;
 
 public class Frame extends javax.swing.JFrame {
+    
+   private Protection protection; // Declare the Protection instance here
+   private StaffHome staffHomePnl;
+
+
 
     public Frame() {
         initComponents();
@@ -209,11 +215,15 @@ public class Frame extends javax.swing.JFrame {
     
     private AdminHome adminHomePnl = new AdminHome();
     private ManagerHome managerHomePnl = new ManagerHome();
-    private StaffHome staffHomePnl = new StaffHome();
     private ClientHome clientHomePnl = new ClientHome();
     
     private CardLayout contentView = new CardLayout();
     private CardLayout frameView = new CardLayout();
+    
+    // Method to set the Protection instance
+    public void setProtection(Protection protection) {
+        this.protection = protection;
+    }
     
     public void init(Main controller){
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -227,7 +237,7 @@ public class Frame extends javax.swing.JFrame {
         adminHomePnl.init(main.sqlite);
         clientHomePnl.init(main.sqlite);
         managerHomePnl.init(main.sqlite);
-        staffHomePnl.init(main.sqlite);
+        staffHomePnl = new StaffHome(main.sqlite, protection);
         
         Container.setLayout(frameView);
         Container.add(loginPnl, "loginPnl");
