@@ -314,13 +314,21 @@ private void updateProduct(String currentName, String newName, int newStock, dou
     }
 }
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        if(table.getSelectedRow() >= 0){
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
-            
-            if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+        if (table.getSelectedRow() >= 0) {
+        String productName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+        int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + productName + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                sqlite.deleteProduct(productName);
+                
+                // Remove the row from the tableModel
+                tableModel.removeRow(table.getSelectedRow());
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
+    }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
 
