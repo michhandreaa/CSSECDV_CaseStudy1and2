@@ -208,6 +208,10 @@ public class Frame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         SessionManager.getInstance().resetSession(); // Reset the session
+        adminBtn.setEnabled(true);
+        managerBtn.setEnabled(true);
+        staffBtn.setEnabled(true);
+        clientBtn.setEnabled(true);
         frameView.show(Container, "loginPnl");
     }//GEN-LAST:event_logoutBtnActionPerformed
 
@@ -312,7 +316,7 @@ public class Frame extends javax.swing.JFrame {
         main.sqlite.addUser(username, password);
     }
     
-    public int getUserRole() {
+    public int getRole() {
         return role;
     }
     
