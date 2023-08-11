@@ -2,6 +2,7 @@ package View;
 
 import Controller.Main;
 import Controller.Protection;
+import Controller.SessionManager;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -12,7 +13,7 @@ public class Frame extends javax.swing.JFrame {
    private Protection protection; // Declare the Protection instance here
    private StaffHome staffHomePnl;
 
-
+   private int role;
 
     public Frame() {
         initComponents();
@@ -206,6 +207,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_clientBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        SessionManager.getInstance().resetSession(); // Reset the session
         frameView.show(Container, "loginPnl");
     }//GEN-LAST:event_logoutBtnActionPerformed
 
@@ -254,38 +256,48 @@ public class Frame extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
-    public void mainNav(int role){
+    public void mainNav(){
+        
+        SessionManager sessionManager = SessionManager.getInstance();
+        role = sessionManager.getRole();
+        
+        System.out.println("frame: " + role);
+        
+        frameView.show(Container, "homePnl");
         switch (role) {
-            case 5: // Admin
+            case 5: // Admin role
                 adminHomePnl.showPnl("home");
                 contentView.show(Content, "adminHomePnl");
                 managerBtn.setEnabled(false);
                 staffBtn.setEnabled(false);
                 clientBtn.setEnabled(false);
                 break;
-            case 4: // Manager
+            case 4: // Manager role
                 managerHomePnl.showPnl("home");
                 contentView.show(Content, "managerHomePnl");
                 adminBtn.setEnabled(false);
                 staffBtn.setEnabled(false);
                 clientBtn.setEnabled(false);
                 break;
-            case 3: // Staff
+            case 3: // Staff role
                 staffHomePnl.showPnl("home");
                 contentView.show(Content, "staffHomePnl");
                 adminBtn.setEnabled(false);
                 managerBtn.setEnabled(false);
                 clientBtn.setEnabled(false);
                 break;
-            case 2: // Client
+            case 2: // Client role
                 clientHomePnl.showPnl("home");
                 contentView.show(Content, "clientHomePnl");
                 adminBtn.setEnabled(false);
                 managerBtn.setEnabled(false);
                 staffBtn.setEnabled(false);
                 break;
+            default:
+                clientHomePnl.showPnl("home");
+                contentView.show(Content, "clientHomePnl");
+                break;
         }
-        frameView.show(Container, "homePnl");
     }
     
     public void loginNav(){
@@ -299,6 +311,11 @@ public class Frame extends javax.swing.JFrame {
     public void registerAction(String username, String password, String confpass){
         main.sqlite.addUser(username, password);
     }
+    
+    public int getUserRole() {
+        return role;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

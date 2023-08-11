@@ -2,6 +2,7 @@
 package View;
 
 import Model.User;
+import Controller.SessionManager;
 import Controller.Protection;
 import Controller.SQLite;
 import javax.swing.JOptionPane;
@@ -132,14 +133,22 @@ public class Login extends javax.swing.JPanel {
             return;
         }
         
-        if(("admin".equals(username)) || ("manager".equals(username)) || ("staff".equals(username)) || ("client2".equals(username)) || ("client2".equals(username))) {
+        if(("admin".equals(username)) || ("manager".equals(username)) || ("staff".equals(username)) || ("client1".equals(username)) || ("client2".equals(username))) {
             if ("qwerty1234".equals(password)) {
                 usernameFld.setText("");
                 passwordFld.setText("");
                 errorText.setText("");
                 
                 int role = getUserRole(username);
-                frame.mainNav(role);
+                
+                SessionManager sessionManager = SessionManager.getInstance();
+                sessionManager.setRole(role);
+                sessionManager.setUsername(username);
+                
+                System.out.println(role);
+                System.out.println(sessionManager.getRole());
+                
+                frame.mainNav();
                 return;
             } else {
                 // check if user account is locked
@@ -166,7 +175,14 @@ public class Login extends javax.swing.JPanel {
                     errorText.setText("");
                     
                     int role = getUserRole(username);
-                    frame.mainNav(role);
+                
+                    SessionManager sessionManager = SessionManager.getInstance();
+                    sessionManager.setRole(role);
+                    sessionManager.setUsername(username);
+
+                    System.out.println(role);
+                    System.out.println(sessionManager.getRole());
+                    frame.mainNav();
                 } else {
                     this.lockCount++;
                     JOptionPane.showMessageDialog(this, "Error: Invalid credentials.", "Invalid Credentials", JOptionPane.INFORMATION_MESSAGE);
@@ -201,7 +217,15 @@ public class Login extends javax.swing.JPanel {
             errorText.setText("");
             
             int role = getUserRole(username);
-            frame.mainNav(role);
+                
+            SessionManager sessionManager = SessionManager.getInstance();
+            sessionManager.setRole(role);
+            sessionManager.setUsername(username);
+
+            System.out.println(role);
+            System.out.println(sessionManager.getRole());
+            
+            frame.mainNav();
         } else {
             boolean exists = checkIfUserExists(username);
             

@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MgmtProduct extends javax.swing.JPanel {
 
+    public Frame frame;
     public SQLite sqlite;
     public DefaultTableModel tableModel;
     
