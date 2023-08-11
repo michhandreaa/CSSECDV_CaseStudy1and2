@@ -46,17 +46,17 @@ public class MgmtProduct extends javax.swing.JPanel {
         switch (role) {
         case 3: // Staff role
             // Enable staff-related functionalities on the product page
-            addBtn.setEnabled(true);
-            editBtn.setEnabled(true);
-            deleteBtn.setEnabled(true);
-            purchaseBtn.setEnabled(false);
+            addBtn.setVisible(true);
+            editBtn.setVisible(true);
+            deleteBtn.setVisible(true);
+            purchaseBtn.setVisible(false);
             break;
         default:
             // Disable staff-related functionalities on the product page
-            addBtn.setEnabled(false);
-            editBtn.setEnabled(false);
-            deleteBtn.setEnabled(false);
-            purchaseBtn.setEnabled(true);
+            addBtn.setVisible(false);
+            editBtn.setVisible(false);
+            deleteBtn.setVisible(false);
+            purchaseBtn.setVisible(true);
             break;
     }
     }
@@ -79,15 +79,15 @@ public class MgmtProduct extends javax.swing.JPanel {
         
         switch (role) {
             case 4: // Manager role
-                purchaseBtn.setEnabled(false);
+                purchaseBtn.setVisible(false);
                 break;
             case 3: // Staff role
-                purchaseBtn.setEnabled(false);
+                purchaseBtn.setVisible(false);
                 break;
             case 2: // Client role
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
+                addBtn.setVisible(false);
+                editBtn.setVisible(false);
+                deleteBtn.setVisible(false);
                 break;
             default:
                 break;
@@ -314,13 +314,21 @@ private void updateProduct(String currentName, String newName, int newStock, dou
     }
 }
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        if(table.getSelectedRow() >= 0){
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
-            
-            if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+        if (table.getSelectedRow() >= 0) {
+        String productName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+        int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + productName + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                sqlite.deleteProduct(productName);
+                
+                // Remove the row from the tableModel
+                tableModel.removeRow(table.getSelectedRow());
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
+    }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
 

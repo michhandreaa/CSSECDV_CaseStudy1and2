@@ -52,7 +52,7 @@ public class ManagerHome extends javax.swing.JPanel {
 //        historyBtn.setVisible(false);
 //        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
-        logsBtn.setEnabled(false);
+        logsBtn.setVisible(false);
     }
     
     public void showPnl(String panelName){
