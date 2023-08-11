@@ -416,4 +416,51 @@ public class SQLite {
             System.out.print(ex);
         }
     }
+    
+    public void updateUserRole(String username, int newRole) {
+        String sql = "UPDATE users SET role = ? WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, newRole);
+            pstmt.setString(2, username);
+
+            pstmt.executeUpdate();
+
+            System.out.println("User Role Updated");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void updateUserLockStatus(String username, int newLockStatus) {
+        String sql = "UPDATE users SET locked = ? WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, newLockStatus);
+            pstmt.setString(2, username);
+
+            pstmt.executeUpdate();
+            System.out.println("User lock status updated for " + username);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void changePassword(String username, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+
+            System.out.println("Password for user " + username + " has been changed.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
