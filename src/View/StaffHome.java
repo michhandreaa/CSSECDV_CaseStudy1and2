@@ -41,18 +41,11 @@ public class StaffHome extends javax.swing.JPanel {
         this.sqlite = sqlite; // Assign the parameter to the field
         this.protection = protection; // Assuming you're using this field later
         init(sqlite); // Initialize the content of the panel
-        disableUnauthorizedButtons();
         
         mgmtUser = new MgmtUser(sqlite, protection);
     }
     
-    private void disableUnauthorizedButtons() {
-        User loggedInUser = getLoggedInUser();
-        if (loggedInUser != null && loggedInUser.getRole() != 3) {
-        historyBtn.setVisible(false);
-        logsBtn.setVisible(false);
-        }
-    }
+
     
     // A placeholder method for retrieving the logged-in user
     public User getLoggedInUser() {
@@ -74,10 +67,10 @@ public class StaffHome extends javax.swing.JPanel {
         Content.add(mgmtLogs, "mgmtLogs");
         
 //        UNCOMMENT TO DISABLE BUTTONS
-          historyBtn.setVisible(false);
+          historyBtn.setEnabled(false);
 //        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
-          logsBtn.setVisible(false);
+          logsBtn.setEnabled(false);
     }
     
     /**
