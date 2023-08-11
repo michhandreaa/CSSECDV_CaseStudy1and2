@@ -388,4 +388,16 @@ public class SQLite {
         }
         return product;
     }
+    
+    public void clearLogs() {
+        String sql = "DELETE FROM logs;";
+        
+        try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("All logs have been cleared.");
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+    }
 }
