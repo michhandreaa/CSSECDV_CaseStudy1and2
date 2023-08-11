@@ -50,7 +50,7 @@ public class ManagerHome extends javax.swing.JPanel {
         
 //        UNCOMMENT TO DISABLE BUTTONS
 //        historyBtn.setVisible(false);
-//        usersBtn.setVisible(false);
+        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
         logsBtn.setVisible(false);
     }
@@ -78,7 +78,6 @@ public class ManagerHome extends javax.swing.JPanel {
 
         usersBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         usersBtn.setText("USERS");
-        usersBtn.setEnabled(false);
         usersBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usersBtnActionPerformed(evt);
@@ -116,7 +115,6 @@ public class ManagerHome extends javax.swing.JPanel {
 
         logsBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         logsBtn.setText("LOGS");
-        logsBtn.setEnabled(false);
         logsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logsBtnActionPerformed(evt);
