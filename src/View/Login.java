@@ -137,7 +137,9 @@ public class Login extends javax.swing.JPanel {
                 usernameFld.setText("");
                 passwordFld.setText("");
                 errorText.setText("");
-                frame.mainNav();
+                
+                int role = getUserRole(username);
+                frame.mainNav(role);
                 return;
             } else {
                 // check if user account is locked
@@ -162,7 +164,9 @@ public class Login extends javax.swing.JPanel {
                     usernameFld.setText("");
                     passwordFld.setText("");
                     errorText.setText("");
-                    frame.mainNav();
+                    
+                    int role = getUserRole(username);
+                    frame.mainNav(role);
                 } else {
                     this.lockCount++;
                     JOptionPane.showMessageDialog(this, "Error: Invalid credentials.", "Invalid Credentials", JOptionPane.INFORMATION_MESSAGE);
@@ -196,9 +200,8 @@ public class Login extends javax.swing.JPanel {
             passwordFld.setText("");
             errorText.setText("");
             
-//            int role = getUserRole(username);
-            
-            frame.mainNav();
+            int role = getUserRole(username);
+            frame.mainNav(role);
         } else {
             boolean exists = checkIfUserExists(username);
             

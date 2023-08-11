@@ -254,7 +254,37 @@ public class Frame extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
-    public void mainNav(){
+    public void mainNav(int role){
+        switch (role) {
+            case 5: // Admin
+                adminHomePnl.showPnl("home");
+                contentView.show(Content, "adminHomePnl");
+                managerBtn.setEnabled(false);
+                staffBtn.setEnabled(false);
+                clientBtn.setEnabled(false);
+                break;
+            case 4: // Manager
+                managerHomePnl.showPnl("home");
+                contentView.show(Content, "managerHomePnl");
+                adminBtn.setEnabled(false);
+                staffBtn.setEnabled(false);
+                clientBtn.setEnabled(false);
+                break;
+            case 3: // Staff
+                staffHomePnl.showPnl("home");
+                contentView.show(Content, "staffHomePnl");
+                adminBtn.setEnabled(false);
+                managerBtn.setEnabled(false);
+                clientBtn.setEnabled(false);
+                break;
+            case 2: // Client
+                clientHomePnl.showPnl("home");
+                contentView.show(Content, "clientHomePnl");
+                adminBtn.setEnabled(false);
+                managerBtn.setEnabled(false);
+                staffBtn.setEnabled(false);
+                break;
+        }
         frameView.show(Container, "homePnl");
     }
     
