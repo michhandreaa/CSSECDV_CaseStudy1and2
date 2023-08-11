@@ -19,6 +19,7 @@ public class SQLite {
     
     public int DEBUG_MODE = 0;
     String driverURL = "jdbc:sqlite:" + "database.db";
+    private Connection connection;
     
     public void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(driverURL)) {
@@ -389,9 +390,24 @@ public class SQLite {
         return product;
     }
     
+    public void updateProductInDatabase(Product updatedProduct) {
+    String sql = "UPDATE product SET stock = ?, price = ? WHERE name = ?";
+    
+    try (Connection conn = DriverManager.getConnection(driverURL);
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, updatedProduct.getStock());
+        pstmt.setDouble(2, updatedProduct.getPrice());
+        pstmt.setString(3, updatedProduct.getName());
+        pstmt.executeUpdate();
+        
+        System.out.println("Product Updated in Database");
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
     public void clearLogs() {
         String sql = "DELETE FROM logs;";
-        
+
         try (Connection conn = DriverManager.getConnection(driverURL);
                 Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
