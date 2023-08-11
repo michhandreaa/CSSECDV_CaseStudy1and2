@@ -31,21 +31,26 @@ public class StaffHome extends javax.swing.JPanel {
     private Protection protection;
     private CardLayout contentView = new CardLayout();
     
+    
+    public void showPnl(String panelName){
+        contentView.show(Content, panelName);
+    }
+
     public StaffHome(SQLite sqlite, Protection protection) {
-        this.sqlite = sqlite;
-        this.protection = protection;
         initComponents();
+        this.sqlite = sqlite; // Assign the parameter to the field
+        this.protection = protection; // Assuming you're using this field later
+        init(sqlite); // Initialize the content of the panel
         disableUnauthorizedButtons();
         
         mgmtUser = new MgmtUser(sqlite, protection);
     }
     
     private void disableUnauthorizedButtons() {
-        Protection protection = new Protection(); // Create an instance of the Protection class
-        User loggedInUser = getLoggedInUser(); // Use the local method here
+        User loggedInUser = getLoggedInUser();
         if (loggedInUser != null && loggedInUser.getRole() != 3) {
-            historyBtn.setVisible(false);
-            logsBtn.setVisible(false);
+        historyBtn.setVisible(false);
+        logsBtn.setVisible(false);
         }
     }
     
@@ -69,16 +74,12 @@ public class StaffHome extends javax.swing.JPanel {
         Content.add(mgmtLogs, "mgmtLogs");
         
 //        UNCOMMENT TO DISABLE BUTTONS
-//        historyBtn.setVisible(false);
+          historyBtn.setVisible(false);
 //        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
-//        logsBtn.setVisible(false);
+          logsBtn.setVisible(false);
     }
     
-    public void showPnl(String panelName){
-        contentView.show(Content, panelName);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -185,7 +186,7 @@ public class StaffHome extends javax.swing.JPanel {
     productsBtn.setForeground(Color.black);
     historyBtn.setForeground(Color.black);
     logsBtn.setForeground(Color.black);
-    mgmtUser.limitToStaffPermissions();  // Implement this method in MgmtUser
+    mgmtUser.limitToStaffPermissions();  // Set component visibility based on user role
     contentView.show(Content, "mgmtUser");  // Show the MgmtUser panel
     }//GEN-LAST:event_usersBtnActionPerformed
     
@@ -199,12 +200,12 @@ public class StaffHome extends javax.swing.JPanel {
     }//GEN-LAST:event_productsBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
-        mgmtHistory.init();
-        usersBtn.setForeground(Color.black);
-        productsBtn.setForeground(Color.black);
-        historyBtn.setForeground(Color.red);
-        logsBtn.setForeground(Color.black);
-        contentView.show(Content, "mgmtHistory");
+       mgmtHistory.init(); // Initialize the MgmtHistory panel
+       usersBtn.setForeground(Color.black);
+       productsBtn.setForeground(Color.black);
+       historyBtn.setForeground(Color.red);
+       logsBtn.setForeground(Color.black);
+       contentView.show(Content, "mgmtHistory"); // Show the MgmtHistory panel
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
