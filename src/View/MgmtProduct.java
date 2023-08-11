@@ -6,6 +6,7 @@
 package View;
 
 import Controller.SQLite;
+import Controller.SessionManager;
 import Model.Product;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -23,6 +24,9 @@ public class MgmtProduct extends javax.swing.JPanel {
     public SQLite sqlite;
     public DefaultTableModel tableModel;
     
+    private int role;
+
+    
     public MgmtProduct(SQLite sqlite) {
         initComponents();
         this.sqlite = sqlite;
@@ -35,11 +39,49 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        editBtn.setVisible(false);
 //        deleteBtn.setVisible(false);
     }
+    
+    public int getRole() {
+        return role;
+    }
 
     public void init(){
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
+        }
+        
+        SessionManager sessionManager = SessionManager.getInstance();
+        role = sessionManager.getRole();
+        
+        System.out.println("MgmtProduct: " + role);
+        
+        switch (role) {
+            case 5: // Admin role
+//                purchaseBtn.setEnabled(false);
+                addBtn.setEnabled(false);
+                editBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+                break;
+            case 4: // Manager role
+                purchaseBtn.setEnabled(false);
+                addBtn.setEnabled(false);
+//                editBtn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+                break;
+            case 3: // Staff role
+                purchaseBtn.setEnabled(false);
+                addBtn.setEnabled(false);
+                editBtn.setEnabled(false);
+//                deleteBtn.setEnabled(false);
+                break;
+            case 2: // Client role
+                purchaseBtn.setEnabled(false);
+//                addBtn.setEnabled(false);
+//                editBtn.setEnabled(false);
+//                deleteBtn.setEnabled(false);
+                break;
+            default:
+                break;
         }
         
 //      LOAD CONTENTS
