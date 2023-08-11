@@ -239,8 +239,23 @@ public class MgmtProduct extends javax.swing.JPanel {
 
         if (result == JOptionPane.OK_OPTION) {
              String name = nameFld.getText();
-             int stock = Integer.parseInt(stockFld.getText());
-             double price = Double.parseDouble(priceFld.getText());
+             
+            int stock = -1;
+            double price = -1.1;
+             
+            try {
+                stock = Integer.parseInt(stockFld.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+             
+            try {
+                price = Double.parseDouble(priceFld.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input for price.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
              
             // Perform the add operation in the database
              sqlite.addProduct(name, stock, price);
@@ -269,8 +284,22 @@ public class MgmtProduct extends javax.swing.JPanel {
         if (result == JOptionPane.OK_OPTION) {
             String currentName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
             String newName = nameFld.getText();
-            int newStock = Integer.parseInt(stockFld.getText());
-            double newPrice = Double.parseDouble(priceFld.getText());
+            int newStock = -1;
+            double newPrice = -1.1;
+             
+            try {
+                newStock = Integer.parseInt(stockFld.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+             
+            try {
+                newPrice = Double.parseDouble(priceFld.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input for price.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             
             updateProduct(currentName, newName, newStock, newPrice);
         }
