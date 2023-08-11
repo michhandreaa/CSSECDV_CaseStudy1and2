@@ -46,17 +46,17 @@ public class MgmtProduct extends javax.swing.JPanel {
         switch (role) {
         case 3: // Staff role
             // Enable staff-related functionalities on the product page
-            addBtn.setEnabled(true);
-            editBtn.setEnabled(true);
-            deleteBtn.setEnabled(true);
-            purchaseBtn.setEnabled(false);
+            addBtn.setVisible(true);
+            editBtn.setVisible(true);
+            deleteBtn.setVisible(true);
+            purchaseBtn.setVisible(false);
             break;
         default:
             // Disable staff-related functionalities on the product page
-            addBtn.setEnabled(false);
-            editBtn.setEnabled(false);
-            deleteBtn.setEnabled(false);
-            purchaseBtn.setEnabled(true);
+            addBtn.setVisible(false);
+            editBtn.setVisible(false);
+            deleteBtn.setVisible(false);
+            purchaseBtn.setVisible(true);
             break;
     }
     }
@@ -79,15 +79,15 @@ public class MgmtProduct extends javax.swing.JPanel {
         
         switch (role) {
             case 4: // Manager role
-                purchaseBtn.setEnabled(false);
+                purchaseBtn.setVisible(false);
                 break;
             case 3: // Staff role
-                purchaseBtn.setEnabled(false);
+                purchaseBtn.setVisible(false);
                 break;
             case 2: // Client role
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
+                addBtn.setVisible(false);
+                editBtn.setVisible(false);
+                deleteBtn.setVisible(false);
                 break;
             default:
                 break;

@@ -208,10 +208,10 @@ public class Frame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         SessionManager.getInstance().resetSession(); // Reset the session
-        adminBtn.setEnabled(true);
-        managerBtn.setEnabled(true);
-        staffBtn.setEnabled(true);
-        clientBtn.setEnabled(true);
+        adminBtn.setVisible(true);
+        managerBtn.setVisible(true);
+        staffBtn.setVisible(true);
+        clientBtn.setVisible(true);
         frameView.show(Container, "loginPnl");
     }//GEN-LAST:event_logoutBtnActionPerformed
 
@@ -272,30 +272,30 @@ public class Frame extends javax.swing.JFrame {
             case 5: // Admin role
                 adminHomePnl.showPnl("home");
                 contentView.show(Content, "adminHomePnl");
-                managerBtn.setEnabled(false);
-                staffBtn.setEnabled(false);
-                clientBtn.setEnabled(false);
+                managerBtn.setVisible(false);
+                staffBtn.setVisible(false);
+                clientBtn.setVisible(false);
                 break;
             case 4: // Manager role
                 managerHomePnl.showPnl("home");
                 contentView.show(Content, "managerHomePnl");
-                adminBtn.setEnabled(false);
-                staffBtn.setEnabled(false);
-                clientBtn.setEnabled(false);
+                adminBtn.setVisible(false);
+                staffBtn.setVisible(false);
+                clientBtn.setVisible(false);
                 break;
             case 3: // Staff role
                 staffHomePnl.showPnl("home");
                 contentView.show(Content, "staffHomePnl");
-                adminBtn.setEnabled(false);
-                managerBtn.setEnabled(false);
-                clientBtn.setEnabled(false);
+                adminBtn.setVisible(false);
+                managerBtn.setVisible(false);
+                clientBtn.setVisible(false);
                 break;
             case 2: // Client role
                 clientHomePnl.showPnl("home");
                 contentView.show(Content, "clientHomePnl");
-                adminBtn.setEnabled(false);
-                managerBtn.setEnabled(false);
-                staffBtn.setEnabled(false);
+                adminBtn.setVisible(false);
+                managerBtn.setVisible(false);
+                staffBtn.setVisible(false);
                 break;
             default:
                 clientHomePnl.showPnl("home");
