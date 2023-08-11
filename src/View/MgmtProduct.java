@@ -42,25 +42,6 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        deleteBtn.setVisible(false);
     }
     
-    public void limitToStaffPermissions(int role) {
-        switch (role) {
-        case 3: // Staff role
-            // Enable staff-related functionalities on the product page
-            addBtn.setVisible(true);
-            editBtn.setVisible(true);
-            deleteBtn.setVisible(true);
-            purchaseBtn.setVisible(false);
-            break;
-        default:
-            // Disable staff-related functionalities on the product page
-            addBtn.setVisible(false);
-            editBtn.setVisible(false);
-            deleteBtn.setVisible(false);
-            purchaseBtn.setVisible(true);
-            break;
-    }
-    }
-    
     public int getRole() {
         return role;
     }
@@ -73,7 +54,6 @@ public class MgmtProduct extends javax.swing.JPanel {
         
         SessionManager sessionManager = SessionManager.getInstance();
         int role = sessionManager.getRole();
-        limitToStaffPermissions(role);
         
         System.out.println("MgmtProduct: " + role);
         
