@@ -10,8 +10,10 @@ import Controller.Protection;
 import Model.User;
 import java.util.ArrayList;
 import java.awt.Component;
+import java.awt.GridLayout;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -28,6 +30,7 @@ public class MgmtUser extends javax.swing.JPanel {
     public SQLite sqlite;
     public Protection protection;
     public DefaultTableModel tableModel;
+   
     
     public MgmtUser(SQLite sqlite, Protection protection) {
         initComponents();
@@ -194,57 +197,107 @@ public class MgmtUser extends javax.swing.JPanel {
                 "EDIT USER ROLE", JOptionPane.QUESTION_MESSAGE, null, options, options[(int)tableModel.getValueAt(table.getSelectedRow(), 2) - 1]);
             
             if(result != null){
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
-                System.out.println(result.charAt(0));
+                // Update role value in table model
+                tableModel.setValueAt(result.charAt(0) - '0', table.getSelectedRow(), 2);
+
+                // Update role value in database
+                String username = (String) tableModel.getValueAt(table.getSelectedRow(), 0);
+                int newRole = result.charAt(0) - '0';
+                sqlite.updateUserRole(username, newRole);
             }
         }
     }//GEN-LAST:event_editRoleBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        if(table.getSelectedRow() >= 0){
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
-            
+        int selectedRow = table.getSelectedRow();
+        System.out.println("selected row: " + selectedRow);
+
+        if (selectedRow >= 0) {
+            String username = (String) tableModel.getValueAt(selectedRow, 0);
+
+            int result = JOptionPane.showConfirmDialog(
+                null, "Are you sure you want to delete " + username + "?",
+                "DELETE USER", JOptionPane.YES_NO_OPTION);
+
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // Delete the user from table model
+                tableModel.removeRow(selectedRow);
+
+                // Delete the user from database
+                System.out.println("deleting " + username);
+                sqlite.removeUser(username); // Call the removeUser method
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a user to delete.");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void lockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lockBtnActionPerformed
-        if(table.getSelectedRow() >= 0){
-            String state = "lock";
-            if("1".equals(tableModel.getValueAt(table.getSelectedRow(), 3) + "")){
-                state = "unlock";
-            }
-            
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to " + state + " " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
-            
+        int selectedRow = table.getSelectedRow();
+    
+        if (selectedRow >= 0) {
+            String username = (String) tableModel.getValueAt(selectedRow, 0);
+            int currentLockStatus = (int) tableModel.getValueAt(selectedRow, 3);
+
+            String action = (currentLockStatus == 1) ? "unlock" : "lock";
+
+            int result = JOptionPane.showConfirmDialog(
+                null, "Are you sure you want to " + action + " " + username + "?",
+                action.toUpperCase() + " USER", JOptionPane.YES_NO_OPTION);
+
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // Update the lock status in the table model
+                int newLockStatus = (currentLockStatus == 1) ? 0 : 1;
+                tableModel.setValueAt(newLockStatus, selectedRow, 3);
+
+                // Update the lock status in the database
+                sqlite.updateUserLockStatus(username, newLockStatus);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a user to lock/unlock.");
         }
     }//GEN-LAST:event_lockBtnActionPerformed
 
     private void chgpassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chgpassBtnActionPerformed
-        if(table.getSelectedRow() >= 0){
-            JTextField password = new JPasswordField();
-            JTextField confpass = new JPasswordField();
-            designer(password, "PASSWORD");
-            designer(confpass, "CONFIRM PASSWORD");
-            
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow >= 0) {
+            JTextField passwordField = new JPasswordField();
+            JTextField confirmPasswordField = new JPasswordField();
+
+            designer(passwordField, "NEW PASSWORD");
+            designer(confirmPasswordField, "CONFIRM PASSWORD");
+
             Object[] message = {
-                "Enter New Password:", password, confpass
+                "Enter New Password:", passwordField, confirmPasswordField
             };
 
-            int result = JOptionPane.showConfirmDialog(null, message, "CHANGE PASSWORD", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-            
+            int result = JOptionPane.showConfirmDialog(
+                null, message, "CHANGE PASSWORD", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(password.getText());
-                System.out.println(confpass.getText());
+                String newPassword = passwordField.getText();
+                String confirmedPassword = confirmPasswordField.getText();
+
+                if (newPassword.equals(confirmedPassword)) {
+                    String username = (String) tableModel.getValueAt(selectedRow, 0);
+
+                    // Call the changePassword method in SQLite to update the password
+                    sqlite.changePassword(username, newPassword);
+                    
+                    tableModel.setValueAt(newPassword, selectedRow, 1);
+
+                    // Optionally, you can provide feedback to the user that the password has been changed.
+                    System.out.println("Password for user " + username + " changed successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a user to change the password.");
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed
-     public void limitToStaffPermissions() {
+     
+    public void limitToStaffPermissions() {
         User loggedInUser = getLoggedInUser();
 
         if (loggedInUser != null && loggedInUser.getRole() == 3) {
