@@ -46,9 +46,9 @@ public class AdminHome extends javax.swing.JPanel {
         Content.add(this.mgmtLogs, "mgmtLogs");
         
 //        UNCOMMENT TO DISABLE BUTTONS
-//        historyBtn.setVisible(false);
+        historyBtn.setEnabled(false);
 //        usersBtn.setVisible(false);
-//        productsBtn.setVisible(false);
+        productsBtn.setEnabled(false);
 //        logsBtn.setVisible(false);
     }
     
