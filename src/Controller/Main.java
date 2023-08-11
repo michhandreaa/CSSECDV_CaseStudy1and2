@@ -99,7 +99,7 @@ public class Main {
 //            System.out.println(" Role: " + users.get(nCtr).getRole());
 //            System.out.println(" Locked: " + users.get(nCtr).getLocked());
 //        }
-        
+
         // Initialize User Interface
         Frame frame = new Frame();
         frame.init(this);

@@ -1,12 +1,16 @@
 
 package View;
 
+import Model.User;
 import Controller.Protection;
+import Controller.SQLite;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 public class Login extends javax.swing.JPanel {
 
     public Frame frame;
+    public SQLite sqlite;
     
     public Protection protection = new Protection();
     private int lockCount;
@@ -190,11 +194,20 @@ public class Login extends javax.swing.JPanel {
             errorText.setText("");
             frame.mainNav();
         } else {
-            this.lockCount++;
-            errorText.setText("Error: Invalid credentials");
-            usernameFld.setText("");
-            passwordFld.setText("");
-            return;
+            boolean exists = checkIfUserExists(username);
+            
+            if (exists) {
+                this.lockCount++;
+                errorText.setText("Error: Invalid credentials");
+                usernameFld.setText("");
+                passwordFld.setText("");
+                return;
+            } else {
+                JOptionPane.showMessageDialog(this, "You do not have an account to the system. Please register first to gain access.", "Account Not Found", JOptionPane.INFORMATION_MESSAGE);
+                usernameFld.setText("");
+                passwordFld.setText("");
+            }
+            
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
@@ -217,6 +230,30 @@ public class Login extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_forgotPasswordBtnMouseClicked
 
+    public String[] getUsernames() {
+        sqlite = new SQLite();
+        ArrayList<User> users = sqlite.getUsers();
+        
+        String[] usernames = new String[users.size()];
+        
+        for (int i = 0; i < users.size(); i++) {
+            usernames[i] = users.get(i).getUsername();
+//            System.out.println(usernames[i]);
+        }
+        
+        return usernames;
+    }
+    
+    public boolean checkIfUserExists(String usernameInput) {
+        String[] usernames = getUsernames();
+        
+        for (String username:usernames) {
+            if (username.equals(usernameInput))
+                return true;
+        }
+        
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorText;
