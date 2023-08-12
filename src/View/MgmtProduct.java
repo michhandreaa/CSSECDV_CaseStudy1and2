@@ -245,6 +245,11 @@ public class MgmtProduct extends javax.swing.JPanel {
              
             try {
                 stock = Integer.parseInt(stockFld.getText());
+                
+                if (stock < 0) {
+                    JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a positive integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -252,6 +257,11 @@ public class MgmtProduct extends javax.swing.JPanel {
              
             try {
                 price = Double.parseDouble(priceFld.getText());
+                
+                if (price < 0) {
+                    JOptionPane.showMessageDialog(null, "Invalid input for price. Please enter a positive integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid input for price.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -289,6 +299,11 @@ public class MgmtProduct extends javax.swing.JPanel {
              
             try {
                 newStock = Integer.parseInt(stockFld.getText());
+                
+                if (newStock < 0) {
+                    JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a positive integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid input for stock. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -296,6 +311,11 @@ public class MgmtProduct extends javax.swing.JPanel {
              
             try {
                 newPrice = Double.parseDouble(priceFld.getText());
+                
+                if (newPrice < 0) {
+                    JOptionPane.showMessageDialog(null, "Invalid input for price. Please enter a positive integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid input for price.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
